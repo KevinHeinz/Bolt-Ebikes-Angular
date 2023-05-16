@@ -1,0 +1,433 @@
+<!-- Checkout component Html File --  Section Structure Guide                                                   -->
+<!--    Top Section: customer                                                                                   -->
+<!--                      shipping address                                                                      -->
+<!--                               billing address                                                              -->
+<!--                                        payment                                                             -->
+<!--                                              Bottom Section: Order Details Review                          -->
+
+<div class="main-content page-form">
+    <div class="section-content middle-padded checkout-border">
+        <div class="container-fluid">
+            <form [formGroup]="checkoutFormGroup" (ngSubmit)="onComplete()">
+
+<!--                                           <-- begin customer                                               -->
+                <div formGroupName="customer" class="form-area">
+                    <h3 class="checkout-header">Bolt Customer</h3>
+
+                    <div class="row">
+                        <div class="col-md-2" style="padding:0 10px 0 0;">
+                            <label>First Name</label>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="checkout-space checkout-input">
+                                <input formControlName="firstName" type="text">
+                                    <div *ngIf="firstName.invalid && (firstName.dirty || firstName.touched)"
+                                                                            class="alert alert-danger mt-1">
+                                        <div *ngIf="firstName.errors.required || firstName.errors.invalidSpaceChars">
+                                            ** Attention, Please! Customer First Name Is Required **
+                                        </div>
+                                        <div *ngIf="firstName.errors.minlength">
+                                            ** Attention, Please! Customer First Name Must Have At Least 2 Letters **
+                                        </div>
+                                    </div>
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-2" style="padding:0 10px 0 0;">
+                            <label>Last Name</label>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="checkout-space checkout-input">
+                                <input formControlName="lastName" type="text">
+                                    <div *ngIf="lastName.invalid && (lastName.dirty || lastName.touched)"
+                                                                        class="alert alert-danger mt-1">
+                                        <div *ngIf="lastName.errors.required || lastName.errors.invalidSpaceChars">
+                                            ** Attention, Please! Customer Last Name Is Required **
+                                        </div>
+                                        <div *ngIf="lastName.errors.minlength">
+                                            ** Attention, Please! Customer Last Name Must Have At Least 2 Letters **
+                                        </div>
+                                    </div>
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-2" style="padding:0 10px 0 0;">
+                            <label>Email</label>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="checkout-space checkout-input">
+                                <input formControlName="email" type="text">
+                                    <div *ngIf="email.invalid && (email.dirty || email.touched)"
+                                                                            class="alert alert-danger mt-1">
+                                        <div *ngIf="email.errors.required">
+                                            ** Attention, Please! Customer Email Is Required **
+                                        </div>
+                                        <div *ngIf="email.errors.pattern">
+                                        ** Attention, Please! Customer Email Must Have Valid Email Format **
+                                        </div>
+                                    </div>
+            
+                            </div>
+                        </div>
+                    </div>
+                </div>
+<!--                                                        <--  end customer                                   -->
+
+
+<!--                                       <--  Begin Addresses shipping/billing                                -->
+
+                                            <!-- begin shipping address                                         -->
+
+                <div formGroupName="shippingAddress" class="form-area">
+                    <h3 class="checkout-header">Shipping Address</h3>
+
+                    <div class="row">
+                        <div class="col-md-2" style="padding:0 10px 0 0;">
+                            <label>Country</label>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="checkout-space checkout-input" (change)="getStates('shippingAddress')">
+                                <select formControlName="country">
+                                    <option *ngFor="let country of countries" [ngValue]="country">
+                                        {{ country.name }}
+                                    </option>
+                                </select>
+                                <div *ngIf="shippingAddressCountry.invalid && (shippingAddressCountry.dirty || shippingAddressCountry.touched)"
+                                                                        class="alert alert-danger mt-1">
+                                    <div *ngIf="shippingAddressCountry.errors.required">
+                                        ** Attention, Please! Shipping Address Country Is Required **
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-2" style="padding:0 10px 0 0;">
+                            <label>Street</label>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="checkout-space checkout-input">
+                                <input formControlName="street" type="text">
+                                <div *ngIf="shippingAddressStreet.invalid && (shippingAddressStreet.dirty || shippingAddressStreet.touched)"
+                                                                        class="alert alert-danger mt-1">
+                                    <div *ngIf="shippingAddressStreet.errors.required || shippingAddressStreet.errors.invalidSpaceChars">
+                                        ** Attention, Please! Shipping Address Street Is Required **
+                                    </div>
+                                    <div *ngIf="shippingAddressStreet.errors.minlength">
+                                        ** Attention, Please! Shipping Address Street Must Have At Least 2 Characters **
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-2" style="padding:0 10px 0 0;">
+                            <label>City</label>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="checkout-space checkout-input">
+                                <input formControlName="city" type="text">
+                                <div *ngIf="shippingAddressCity.invalid && (shippingAddressCity.dirty || shippingAddressCity.touched)"
+                                                                        class="alert alert-danger mt-1">
+                                    <div *ngIf="shippingAddressCity.errors.required || shippingAddressCity.errors.invalidSpaceChars">
+                                        ** Attention, Please! Shipping Address City Is Required **
+                                    </div>
+                                    <div *ngIf="shippingAddressCity.errors.minlength">
+                                        ** Attention, Please! Shipping Address City Must Have At Least 2 Letters **
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-2" style="padding:0 10px 0 0;">
+                            <label>State</label>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="checkout-space checkout-input">
+                                <select formControlName="state">
+                                    <option *ngFor="let state of shippingAddressStates" [ngValue]="state">
+                                        {{ state.name }}
+                                    </option>
+                                </select>
+                                <div *ngIf="shippingAddressState.invalid && (shippingAddressState.dirty || shippingAddressState.touched)"
+                                                                        class="alert alert-danger mt-1">
+                                    <div *ngIf="shippingAddressState.errors.required">
+                                        ** Attention, Please! Shipping Address State Is Required **
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-2" style="padding:0 10px 0 0;">
+                            <label>Zip Code</label>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="checkout-input">
+                                <input formControlName="zipCode" type="text">
+                                <div *ngIf="shippingAddressZipCode.invalid && (shippingAddressZipCode.dirty || shippingAddressZipCode.touched)"
+                                                                        class="alert alert-danger mt-1">
+                                    <div *ngIf="shippingAddressZipCode.errors.required || shippingAddressZipCode.errors.invalidSpaceChars">
+                                        ** Attention, Please! Shipping Address Zip Code Is Required **
+                                    </div>
+                                    <div *ngIf="shippingAddressZipCode.errors.minlength">
+                                        ** Attention, Please! Shipping Address Zip Code Must Have At Least 2 Numbers **
+                                    </div> 
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+<!--                                   <--              end shipping address                                       -->
+
+<!--                                   <--      shipping same as billing?                                          -->
+                <div class="copy-space">
+                    <label class="checkout-checkbox">
+                        <input type="checkbox" (change)="copyAddress($event)">
+                        <span style="margin-left:20px">Billing Address Same As Shipping Address?</span>
+                    </label>
+                </div>
+
+ <!--                                   <--                 begin billing address                                  -->
+                <div formGroupName="billingAddress" class="form-area">
+                    <h3 class="checkout-header">Billing Address</h3>
+
+                    <div class="row">
+                        <div class="col-md-2" style="padding:0 10px 0 0;">
+                            <label>Country</label>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="checkout-space checkout-input">
+                                <select formControlName="country" (change)="getStates('billingAddress')">
+                                    <option *ngFor="let country of countries" [ngValue]="country">
+                                        {{ country.name }}
+                                    </option>
+                                </select>
+                                <div *ngIf="billingAddressCountry.invalid && (billingAddressCountry.dirty || billingAddressCountry.touched)"
+                                                                        class="alert alert-danger mt-1">
+                                    <div *ngIf="billingAddressCountry.errors.required">
+                                        ** Attention, Please! Billing Address Country Is Required **
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-2" style="padding:0 10px 0 0;">
+                            <label>Street</label>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="checkout-space checkout-input">
+                                <input formControlName="street" type="text">
+                                <div *ngIf="billingAddressStreet.invalid && (billingAddressStreet.dirty || billingAddressStreet.touched)"
+                                                                        class="alert alert-danger mt-1">
+                                    <div *ngIf="billingAddressStreet.errors.required || billingAddressStreet.errors.invalidSpaceChars">
+                                        ** Attention, Please! Billing Address Street Is Required **
+                                    </div>
+                                    <div *ngIf="billingAddressStreet.errors.minlength">
+                                        ** Attention, Please! Billing Address Street Must Have At Least 2 Characters **
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-2" style="padding:0 10px 0 0;">
+                            <label>City</label>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="checkout-space checkout-input">
+                                <input formControlName="city" type="text">
+                                <div *ngIf="billingAddressCity.invalid && (billingAddressCity.dirty || billingAddressCity.touched)"
+                                                                        class="alert alert-danger mt-1">
+                                    <div *ngIf="billingAddressCity.errors.required || billingAddressCity.errors.invalidSpaceChars">
+                                        ** Attention, Please! Billing Address City Is Required **
+                                    </div>
+                                    <div *ngIf="billingAddressCity.errors.minlength">
+                                        ** Attention, Please! Billing Address City Must Have At Least 2 Letters **
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-2" style="padding:0 10px 0 0;">
+                            <label>State</label>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="checkout-space checkout-input">
+                                <select formControlName="state">
+                                    <option *ngFor="let state of billingAddressStates" [ngValue]="state">
+                                        {{ state.name }}
+                                    </option>
+                                </select>
+                                <div *ngIf="billingAddressState.invalid && (billingAddressState.dirty || billingAddressState.touched)"
+                                                                        class="alert alert-danger mt-1">
+                                    <div *ngIf="billingAddressState.errors.required">
+                                        ** Attention, Please! Billing Address State Is Required **
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-2" style="padding:0 10px 0 0;">
+                            <label>Zip Code</label>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="checkout-space checkout-input">
+                                <input formControlName="zipCode" type="text">
+                                <div *ngIf="billingAddressZipCode.invalid && (billingAddressZipCode.dirty || billingAddressZipCode.touched)"
+                                                                        class="alert alert-danger mt-1">
+                                    <div *ngIf="billingAddressZipCode.errors.required || billingAddressZipCode.errors.invalidSpaceChars">
+                                        ** Attention, Please! Billing Address Zip Code Is Required **
+                                    </div>
+                                    <div *ngIf="billingAddressZipCode.errors.minlength">
+                                        ** Attention, Please! Billing Address Zip Code Must Have At Least 2 Numbers **
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+<!--                                                                     <--         end billing           -->
+
+<!--                                                    <--                End shipping/billing Addresses  -->
+
+<!--                                                    <--  begin payment                                 -->
+                <div formGroupName="creditCard" class="form-area">
+                    <h3 class="checkout-header">Credit Card (or Debit)</h3>
+
+                    <div class="row">
+                        <div class="col-md-2" style="padding:0 10px 0 0;">
+                            <label>Card Type</label>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="checkout-space checkout-input">
+                                <select formControlName="cardType">
+                                    <option>Visa</option>
+                                    <option>Mastercard</option>
+                                </select>
+                                <div *ngIf="ccType.invalid && (ccType.dirty || ccType.touched)"
+                                                                        class="alert alert-danger mt-1">
+                                    <div *ngIf="ccType.errors.required">
+                                        ** Attention, Please! Card Type Is Required **
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-2" style="padding:0 5px 0 0;">
+                            <label>Name<p class="cc-sm">(on card)</p></label>    
+                        </div>
+                        <div class="col-md-6">
+                            <div class="checkout-space checkout-input">
+                                <input formControlName="cardName" type="text">
+                                <div *ngIf="ccName.invalid && (ccName.dirty || ccName.touched)"
+                                                                        class="alert alert-danger mt-1">
+                                    <div *ngIf="ccName.errors.required">
+                                        ** Attention, Please! Card Name Is Required **
+                                    </div>
+                                    <div *ngIf="ccName.errors.minlength">
+                                        ** Attention, Please! Card Name Must Have At Least 2 Letters **
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-2" style="padding:0 5px 0 0;">
+                            <label>Card Number</label>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="checkout-space checkout-input">
+                                <input formControlName="cardNumber" type="text">
+                                <div *ngIf="ccNumber.invalid && (ccNumber.dirty || ccNumber.touched)"
+                                                                        class="alert alert-danger mt-1">
+                                    <div *ngIf="ccNumber.errors.required">
+                                        ** Attention, Please! Card Number Is Required **
+                                    </div>
+                                    <div *ngIf="ccNumber.errors.pattern">
+                                        ** Attention, Please! Card Number Must Have 16 Digits **
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-2" style="padding:0 5px 0 0;">
+                            <label>Security Code<p class="cc-sm">(3 digits)</p></label>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="checkout-space checkout-input">
+                                <input formControlName="securityCode" type="text">
+                                 <div *ngIf="ccSecCode.invalid && (ccSecCode.dirty || ccSecCode.touched)"
+                                                                        class="alert alert-danger mt-1">
+                                    <div *ngIf="ccSecCode.errors.required">
+                                        ** Attention, Please! Card Security Code Is Required **
+                                    </div>
+                                    <div *ngIf="ccSecCode.errors.pattern">
+                                        ** Attention, Please! Card Security Code Must Have 3 Digits **
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-2" style="padding:0 10px 0 0;">
+                            <label>Expiry Month</label>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="checkout-space checkout-input">
+                                <select formControlName="expiryMonth" (change)="updateExpiryMonths()">
+                                    <option *ngFor="let month of ccMonths">
+                                        {{ month }} 
+                                    </option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-2" style="padding:0 10px 0 0;">
+                            <label>Expiry Year</label>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="checkout-space checkout-input">
+                                <select formControlName="expiryYear"> 
+                                    <option *ngFor="let year of ccYears">
+                                        {{ year }} 
+                                    </option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+<!--                                                                  <--                      end payment     -->
+
+<!--                                                         <--             begin order details               -->
+                <div class="form-area">
+                    <h3 class="checkout-header">Order Details Review</h3>
+                    <p>Number of Items: {{ totalQuantity }}</p>
+                    <p>Shipping: Always FREE!</p>
+                    <p>Payment Total: {{ totalPrice | currency: 'USD' }}</p>
+
+                </div>
+
+<!--                                                         <--             Bottom Section: end order details -->
+
+
+                <div class="text-center">
+                    <button type="submit"  class="btn-checkout">Complete</button>
+                </div>
+            </form>
+
+        </div>
+    </div>
+</div>

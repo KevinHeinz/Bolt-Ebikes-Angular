@@ -1,0 +1,10 @@
+<div class="form-header">
+    <input #myInput type="text" 
+        placeholder="Search here for products..." 
+        class="user-input user-input-xl" 
+        (keyup.enter)="executeUserSearch(myInput.value)"/>
+
+    <button (click)="executeUserSearch(myInput.value)" class="user-btn-submit" >
+        Search
+    </button>
+</div>

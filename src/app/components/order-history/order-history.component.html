@@ -1,0 +1,40 @@
+<div class="main-content">
+    <div class="section-content">
+        <div class="container-fluid">
+            <h3>Customer Orders</h3>
+
+            <div *ngIf="orderHistoryList.length > 0">
+                <table class="table table-bordered">
+                    <tr>
+                        <th width="17%">Purchase Tracking Number</th>
+                        <th width="9%">Purchase Total</th>
+                        <th width="9%">Number of Items</th>
+                        <th width="17%">Purchase Date</th>
+                    </tr>
+                    <tr *ngFor="let tempOrderHistory of orderHistoryList">
+                        <td>
+                            {{ tempOrderHistory.trackingNumber }}
+                        </td>
+                        <td>
+                            {{ tempOrderHistory.totalPrice | currency: 'USD' }}
+                        </td>
+                        <td>
+                            {{ tempOrderHistory.totalQuantity }}
+                        </td>
+                        <td>
+                            {{ tempOrderHistory.dateCreated | date: 'medium' }}
+                        </td>
+                    </tr>
+                </table>
+            </div>
+
+            <!-- display message for customers who haven't completed a prior purchase -->
+            <div *ngIf="orderHistoryList.length == 0" class="alert alert-warning col-md-12" role="alert">
+                No prior purchase has been completed using your current login email address. 
+                If you completed a prior Bolt purchase, you need to login with that same email address
+                you used to register and login for that prior Bolt purchase.
+            </div>
+
+        </div>
+    </div>
+</div>

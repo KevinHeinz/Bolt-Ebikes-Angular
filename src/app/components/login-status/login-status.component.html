@@ -1,0 +1,20 @@
+<div class="logInOut-status-header">
+
+    <div *ngIf="isAuthenticated && userFirstAndLast" class="welcome-message">
+        Welcome back, {{ userFirstAndLast }}!
+    </div>
+
+    <button *ngIf="!isAuthenticated" routerLink="/login" class="logInOut-btn">
+        Login
+    </button>
+    <button *ngIf="isAuthenticated" (click)="logout()" routerLink="/login" class="logInOut-btn">
+        Logout
+    </button>
+    <button *ngIf="isAuthenticated" routerLink="/members" class="member-btn">
+        Member
+    </button>
+    <button *ngIf="isAuthenticated" routerLink="/order-history" class="orders-btn">
+        Orders
+    </button>
+
+</div>
